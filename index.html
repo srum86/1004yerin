@@ -2971,7 +2971,6 @@
         rowUrl: `${baseUrl}/rest/v1/family_sync?family_id=eq.${familyId}`,
         headers: {
           'apikey': String(cfg.anonKey || '').trim(),
-          'Authorization': `Bearer ${String(cfg.anonKey || '').trim()}`,
           'Content-Type': 'application/json',
           'Prefer': 'resolution=merge-duplicates,return=representation'
         },
