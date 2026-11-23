@@ -6501,7 +6501,7 @@
             </div>
             <div class="field-group">
               <label class="field-label">부모 설정 비밀번호 (숫자 4자리)</label>
-              <input type="text" name="parentPin" class="input-ctrl" maxlength="4" pattern="\d{4}" value="${escapeHTML(state.household.parentPin || '0000')}" required />
+              <input type="text" name="parentPin" class="input-ctrl" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" value="${escapeHTML(state.household.parentPin || '0000')}" required />
             </div>
             <div class="field-group" style="justify-content:flex-end;">
               <button type="submit" class="primary-btn">💾 기본 설정 저장</button>
