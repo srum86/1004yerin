@@ -1244,6 +1244,103 @@
     }
 
     /* ==========================================================================
+       5.5 WARDROBE THEME SET EFFECTS & GACHA CAPSULE MACHINE
+       ========================================================================== */
+    @keyframes capsuleShake {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      15% { transform: rotate(-11deg) scale(1.04); }
+      30% { transform: rotate(11deg) scale(1.06); }
+      45% { transform: rotate(-9deg) scale(1.05); }
+      60% { transform: rotate(9deg) scale(1.07); }
+      75% { transform: rotate(-5deg) scale(1.04); }
+      90% { transform: rotate(5deg) scale(1.02); }
+    }
+    @keyframes capsulePopIn {
+      0% { transform: scale(0.35) translateY(22px); opacity: 0; }
+      65% { transform: scale(1.08) translateY(-4px); opacity: 1; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes stageSparklePulse {
+      0%, 100% { opacity: 0.45; transform: scale(0.92); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+    .gacha-machine-box {
+      background: linear-gradient(180deg, #FFF7E4 0%, #FFEAF0 55%, #FFFDF6 100%);
+      border: 2.5px solid #EAB938;
+      border-radius: 26px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .gacha-dome-stage {
+      width: 196px;
+      height: 196px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #FFF3D1 58%, #FAD7E4 100%);
+      border: 4px solid #EAB938;
+      box-shadow: 0 10px 26px rgba(234, 185, 56, 0.28), inset 0 4px 14px rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: floatSlow 3.2s ease-in-out infinite;
+    }
+    .gacha-dome-stage.shaking {
+      animation: capsuleShake 0.72s ease-in-out infinite !important;
+    }
+    .gacha-reveal-card {
+      animation: capsulePopIn 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .rarity-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+    .rarity-common {
+      background: #E8EFE6;
+      color: #3E5443;
+      border: 1px solid #C2D4BE;
+    }
+    .rarity-special {
+      background: #E3F0FA;
+      color: #24527A;
+      border: 1px solid #9EC5E8;
+    }
+    .rarity-legendary {
+      background: linear-gradient(90deg, #FFF0B3 0%, #FFD6E7 100%);
+      color: #7A3E00;
+      border: 1.5px solid #EAB938;
+      box-shadow: 0 2px 8px rgba(234, 185, 56, 0.28);
+    }
+    .set-effect-aura {
+      position: relative;
+      box-shadow: 0 0 0 3px #EAB938, 0 8px 24px rgba(234, 185, 56, 0.32) !important;
+    }
+    .set-banner-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #FFF3C4 0%, #FFE4EC 100%);
+      color: #6E3B1E;
+      border: 1.5px solid #EAB938;
+    }
+
+    /* ==========================================================================
        6. RESPONSIVE BREAKPOINTS (LENOVO TAB P11 11" LANDSCAPE, PORTRAIT, MOBILE)
        ========================================================================== */
     @media (min-width: 840px) and (max-height: 860px) {
@@ -1899,58 +1996,175 @@
       { id: 'kurimanju', name: '쿠리만쥬', species: '든든하고 다정한 밤만쥬 친구', unlockStars: 90, evolveStars: 130, desc: '맛있는 간식을 나누어 주며 친구들을 챙겨주는 따뜻한 친구예요.' }
     ];
 
+    const WARDROBE_THEME_SETS = [
+      {
+        id: 'set_elementary',
+        name: '설레는 예비 초등생 세트',
+        icon: '🎒',
+        effectType: 'petals',
+        effectLabel: '벚꽃 잎사귀 흩날림 이펙트',
+        bonusBgId: 'bg_schoolGate',
+        items: ['head_schoolCap', 'outfit_schoolUniform', 'prop_randoseru'],
+        desc: '노란 병아리 모자·세일러 교복·빨간 책가방을 모두 입히면 입학식 꽃잎 이펙트와 초등학교 교문 무대가 빛나요!'
+      },
+      {
+        id: 'set_winterSanta',
+        name: '반짝 겨울 산타·눈사람 세트',
+        icon: '🎅',
+        effectType: 'snow',
+        effectLabel: '하얀 눈송이 펑펑 이펙트',
+        bonusBgId: 'bg_winterVillage',
+        items: ['head_santaHat', 'outfit_santaCoat', 'prop_snowmanFriend'],
+        desc: '산타 방울 모자·산타 망토 목도리·꼬마 눈사람을 함께 착용하면 배경에 포근한 함박눈이 내려요!'
+      },
+      {
+        id: 'set_partyPrincess',
+        name: '은하수 파티 프린세스 세트',
+        icon: '👑',
+        effectType: 'sparkles',
+        effectLabel: '황금 별빛 샹들리에 이펙트',
+        bonusBgId: 'bg_ballroomHall',
+        items: ['head_partyCrown', 'outfit_partyDress', 'prop_glassSlipper'],
+        desc: '퀸즈 티아라 왕관·반짝이 파티 드레스·유리구두를 모두 맞추면 무도회 별빛이 반짝여요!'
+      },
+      {
+        id: 'set_astronaut',
+        name: '은하수 우주비행사 탐험 세트',
+        icon: '🚀',
+        effectType: 'stars',
+        effectLabel: '반짝이는 우주 별똥별 이펙트',
+        bonusBgId: 'bg_spaceStation',
+        items: ['head_spaceHelmet', 'outfit_spaceSuit', 'prop_miniRocket'],
+        desc: '유리 돔 헬멧·우주비행사 슈트·미니 로켓을 모두 장착하면 우주 유성 이펙트가 펼쳐져요!'
+      },
+      {
+        id: 'set_animalPajama',
+        name: '포근포근 동물 잠옷 친구 세트',
+        icon: '🐰',
+        effectType: 'hearts',
+        effectLabel: '몽글몽글 파스텔 하트 이펙트',
+        bonusBgId: 'bg_pajamaRoom',
+        items: [
+          ['head_rabbitHood', 'head_teddyHood', 'head_chickHood'],
+          ['outfit_rabbitPajama', 'outfit_teddyPajama', 'outfit_chickPajama'],
+          ['prop_carrotCushion', 'prop_honeyPot', 'prop_chickDoll']
+        ],
+        desc: '토끼·곰돌이·병아리 동물 잠옷 모자+잠옷+애착소품을 세트로 입히면 포근한 하트 방울이 떠올라요!'
+      },
+      {
+        id: 'set_wizard',
+        name: '신비의 별빛 마법사 세트',
+        icon: '🧙‍♀️',
+        effectType: 'magic',
+        effectLabel: '보랏빛 마법 별가루 이펙트',
+        bonusBgId: 'bg_magicLibrary',
+        items: ['head_wizardHat', 'outfit_wizardCloak', 'prop_magicSpellbook'],
+        desc: '별빛 고깔모자·밤하늘 마법사 망토·고대 마법서를 모두 착용하면 신비로운 마법 별가루가 춤춰요!'
+      }
+    ];
+
+    function getActiveThemeSet(equippedInput = null) {
+      const eq = (equippedInput && typeof equippedInput === 'object')
+        ? Object.assign({}, DEFAULT_EQUIPPED, equippedInput)
+        : getNormalizedEquipped();
+      for (const setObj of WARDROBE_THEME_SETS) {
+        const [reqHead, reqOutfit, reqProp] = setObj.items;
+        const headOk = Array.isArray(reqHead) ? reqHead.includes(eq.head) : eq.head === reqHead;
+        const outfitOk = Array.isArray(reqOutfit) ? reqOutfit.includes(eq.outfit) : eq.outfit === reqOutfit;
+        const propOk = Array.isArray(reqProp) ? reqProp.includes(eq.prop) : eq.prop === reqProp;
+        if (headOk && outfitOk && propOk) return setObj;
+      }
+      return null;
+    }
+
     const ACCESSORIES_CATALOG = [
-      // Head accessories (머리 장식 - 11종: 7세 여아 취향 맞춤)
-      { id: 'head_none', category: 'head', name: '기본 귀 (없음)', cost: 0, desc: '귀여운 본래 귀 모양이에요.' },
-      { id: 'head_starPin', category: 'head', name: '반짝 하트 별핀', cost: 6, desc: '귀 옆에 반짝이는 하트 별핀을 꽂아요.' },
-      { id: 'head_flowerCrown', category: 'head', name: '요정 꽃 화관', cost: 8, desc: '들판의 하얀 꽃과 분홍 꽃으로 엮은 화관이에요.' },
-      { id: 'head_berryBeret', category: 'head', name: '딸기 크림 베레모', cost: 10, desc: '폭신폭신 달콤한 분홍 딸기 베레모예요.' },
-      { id: 'head_bunnyBand', category: 'head', name: '분홍 왕리본 머리띠', cost: 12, desc: '커다란 왕리본이 달린 공주님 머리띠예요.' },
-      { id: 'head_tiara', category: 'head', name: '핑크 보석 티아라', cost: 14, desc: '루비 보석이 박힌 반짝반짝 공주 티아라예요.' },
-      { id: 'head_cloverCap', category: 'head', name: '체리 방울 머리핀', cost: 15, desc: '빨간 체리 두 알이 달랑달랑 귀여운 머리핀이에요.' },
-      { id: 'head_mintBeret', category: 'head', name: '마카롱 리본 베레모', cost: 17, desc: '민트 마카롱처럼 달콤하고 사랑스러운 베레모예요.' },
-      { id: 'head_bearHood', category: 'head', name: '토끼 귀 프릴 보닛', cost: 19, desc: '쫑긋 토끼 귀와 레이스가 달린 귀여운 모자예요.' },
-      { id: 'head_angelHalo', category: 'head', name: '천사 날개 링 머리띠', cost: 21, desc: '반짝이는 천사 링과 작은 날개가 살랑여요.' },
-      { id: 'head_princeCrown', category: 'head', name: '여왕님 다이아 왕관', cost: 24, desc: '하트 다이아몬드가 빛나는 화려한 왕관이에요.' },
+      // ==================== Head accessories (머리 장식 - 19종) ====================
+      { id: 'head_none', category: 'head', rarity: 'common', name: '기본 귀 (없음)', cost: 0, desc: '귀여운 본래 귀 모양이에요.' },
+      { id: 'head_starPin', category: 'head', rarity: 'common', name: '반짝 하트 별핀', cost: 6, desc: '귀 옆에 반짝이는 하트 별핀을 꽂아요.' },
+      { id: 'head_flowerCrown', category: 'head', rarity: 'common', name: '요정 꽃 화관', cost: 8, desc: '들판의 하얀 꽃과 분홍 꽃으로 엮은 화관이에요.' },
+      { id: 'head_berryBeret', category: 'head', rarity: 'common', name: '딸기 크림 베레모', cost: 10, desc: '폭신폭신 달콤한 분홍 딸기 베레모예요.' },
+      { id: 'head_bunnyBand', category: 'head', rarity: 'common', name: '분홍 왕리본 머리띠', cost: 12, desc: '커다란 왕리본이 달린 공주님 머리띠예요.' },
+      { id: 'head_tiara', category: 'head', rarity: 'special', name: '핑크 보석 티아라', cost: 14, desc: '루비 보석이 박힌 반짝반짝 공주 티아라예요.' },
+      { id: 'head_cloverCap', category: 'head', rarity: 'common', name: '체리 방울 머리핀', cost: 15, desc: '빨간 체리 두 알이 달랑달랑 귀여운 머리핀이에요.' },
+      { id: 'head_mintBeret', category: 'head', rarity: 'common', name: '마카롱 리본 베레모', cost: 17, desc: '민트 마카롱처럼 달콤하고 사랑스러운 베레모예요.' },
+      { id: 'head_bearHood', category: 'head', rarity: 'special', name: '토끼 귀 프릴 보닛', cost: 19, desc: '쫑긋 토끼 귀와 레이스가 달린 귀여운 모자예요.' },
+      { id: 'head_angelHalo', category: 'head', rarity: 'special', name: '천사 날개 링 머리띠', cost: 21, desc: '반짝이는 천사 링과 작은 날개가 살랑여요.' },
+      { id: 'head_princeCrown', category: 'head', rarity: 'legendary', name: '여왕님 다이아 왕관', cost: 24, desc: '하트 다이아몬드가 빛나는 화려한 왕관이에요.' },
+      // 신규 머리 장식 8종
+      { id: 'head_schoolCap', category: 'head', rarity: 'special', themeSet: 'set_elementary', name: '예비 초등생 병아리 모자', cost: 14, desc: '반짝이는 이름표 배지가 달린 산뜻한 노란 입학 모자예요.' },
+      { id: 'head_santaHat', category: 'head', rarity: 'special', themeSet: 'set_winterSanta', name: '폭신 빨간 산타 모자', cost: 16, desc: '하얀 솜방울이 달랑달랑 흔들리는 겨울 산타 모자예요.' },
+      { id: 'head_partyCrown', category: 'head', rarity: 'legendary', themeSet: 'set_partyPrincess', name: '반짝이 크리스탈 파티 왕관', cost: 22, desc: '무지개 보석이 빛나는 화려한 파티 프린세스 왕관이에요.' },
+      { id: 'head_spaceHelmet', category: 'head', rarity: 'legendary', themeSet: 'set_astronaut', name: '투명 돔 우주비행사 헬멧', cost: 24, desc: '별빛이 반사되는 동그란 우주 탐험 유리 헬멧이에요.' },
+      { id: 'head_rabbitHood', category: 'head', rarity: 'special', themeSet: 'set_animalPajama', name: '쫑긋 분홍 토끼 잠옷 후드', cost: 15, desc: '길쭉한 토끼 귀가 달린 보들보들 수면 후드예요.' },
+      { id: 'head_teddyHood', category: 'head', rarity: 'special', themeSet: 'set_animalPajama', name: '몽글 코코아 곰돌이 후드', cost: 15, desc: '동글동글 곰돌이 귀가 귀여운 포근한 잠옷 모자예요.' },
+      { id: 'head_chickHood', category: 'head', rarity: 'special', themeSet: 'set_animalPajama', name: '삐약 노란 병아리 후드', cost: 15, desc: '귀여운 벼슬과 주황 부리가 달린 병아리 잠옷 모자예요.' },
+      { id: 'head_wizardHat', category: 'head', rarity: 'legendary', themeSet: 'set_wizard', name: '별빛 고깔 마법사 모자', cost: 20, desc: '황금 초승달과 별 무늬가 수놓아진 신비의 마법 모자예요.' },
 
-      // Outfits & Neckwear (옷 · 목장식 - 11종: 7세 여아 취향 맞춤)
-      { id: 'outfit_none', category: 'outfit', name: '기본 스타일', cost: 0, desc: '포근하고 깔끔한 기본 모습이에요.' },
-      { id: 'outfit_blueRibbon', category: 'outfit', name: '하늘빛 리본 브로치', cost: 8, desc: '하트 보석이 달린 산뜻한 하늘빛 리본이에요.' },
-      { id: 'outfit_scarf', category: 'outfit', name: '딸기우유 폼폼 목도리', cost: 10, desc: '동글동글 방울이 달린 포근한 분홍 목도리예요.' },
-      { id: 'outfit_smock', category: 'outfit', name: '병아리 레이스 원피스', cost: 12, desc: '하얀 레이스 카라가 달린 노란 원피스예요.' },
-      { id: 'outfit_pinkCape', category: 'outfit', name: '분홍 프릴 공주 망토', cost: 15, desc: '왕리본이 달린 샤랄라 분홍 프릴 망토예요.' },
-      { id: 'outfit_sailorCollar', category: 'outfit', name: '하늘 리본 세일러복', cost: 16, desc: '분홍 리본이 포인트인 귀여운 세일러 카라예요.' },
-      { id: 'outfit_mintApron', category: 'outfit', name: '스위트 파티시에 앞치마', cost: 18, desc: '하트 주머니가 달린 민트 레이스 앞치마예요.' },
-      { id: 'outfit_lavenderCape', category: 'outfit', name: '요정 날개 별빛 망토', cost: 20, desc: '연보라빛 별가루가 수놓아진 요정 망토예요.' },
-      { id: 'outfit_strawberryBib', category: 'outfit', name: '딸기 레이스 턱받이', cost: 21, desc: '달콤한 딸기 자수가 놓인 레이스 턱받이예요.' },
-      { id: 'outfit_rainbowScarf', category: 'outfit', name: '파스텔 무지개 숄', cost: 23, desc: '알록달록 파스텔 무지개 색실로 짠 포근한 숄이에요.' },
-      { id: 'outfit_royalCoat', category: 'outfit', name: '샤랄라 핑크 공주 드레스', cost: 26, desc: '금빛 리본과 프릴이 장식된 화사한 드레스예요.' },
+      // ==================== Outfits & Neckwear (옷 · 목장식 - 19종) ====================
+      { id: 'outfit_none', category: 'outfit', rarity: 'common', name: '기본 스타일', cost: 0, desc: '포근하고 깔끔한 기본 모습이에요.' },
+      { id: 'outfit_blueRibbon', category: 'outfit', rarity: 'common', name: '하늘빛 리본 브로치', cost: 8, desc: '하트 보석이 달린 산뜻한 하늘빛 리본이에요.' },
+      { id: 'outfit_scarf', category: 'outfit', rarity: 'common', name: '딸기우유 폼폼 목도리', cost: 10, desc: '동글동글 방울이 달린 포근한 분홍 목도리예요.' },
+      { id: 'outfit_smock', category: 'outfit', rarity: 'common', name: '병아리 레이스 원피스', cost: 12, desc: '하얀 레이스 카라가 달린 노란 원피스예요.' },
+      { id: 'outfit_pinkCape', category: 'outfit', rarity: 'special', name: '분홍 프릴 공주 망토', cost: 15, desc: '왕리본이 달린 샤랄라 분홍 프릴 망토예요.' },
+      { id: 'outfit_sailorCollar', category: 'outfit', rarity: 'special', name: '하늘 리본 세일러복', cost: 16, desc: '분홍 리본이 포인트인 귀여운 세일러 카라예요.' },
+      { id: 'outfit_mintApron', category: 'outfit', rarity: 'common', name: '스위트 파티시에 앞치마', cost: 18, desc: '하트 주머니가 달린 민트 레이스 앞치마예요.' },
+      { id: 'outfit_lavenderCape', category: 'outfit', rarity: 'special', name: '요정 날개 별빛 망토', cost: 20, desc: '연보라빛 별가루가 수놓아진 요정 망토예요.' },
+      { id: 'outfit_strawberryBib', category: 'outfit', rarity: 'common', name: '딸기 레이스 턱받이', cost: 21, desc: '달콤한 딸기 자수가 놓인 레이스 턱받이예요.' },
+      { id: 'outfit_rainbowScarf', category: 'outfit', rarity: 'special', name: '파스텔 무지개 숄', cost: 23, desc: '알록달록 파스텔 무지개 색실로 짠 포근한 숄이에요.' },
+      { id: 'outfit_royalCoat', category: 'outfit', rarity: 'legendary', name: '샤랄라 핑크 공주 드레스', cost: 26, desc: '금빛 리본과 프릴이 장식된 화사한 드레스예요.' },
+      // 신규 의상 8종
+      { id: 'outfit_schoolUniform', category: 'outfit', rarity: 'special', themeSet: 'set_elementary', name: '단정한 초등생 세일러 교복', cost: 18, desc: '빨간 리본 타이와 금빛 단추가 멋진 예비 초등생 교복이에요.' },
+      { id: 'outfit_santaCoat', category: 'outfit', rarity: 'special', themeSet: 'set_winterSanta', name: '산타 코트 & 눈사람 목도리', cost: 20, desc: '하얀 털장식 산타 코트에 포근한 줄무늬 목도리를 둘렀어요.' },
+      { id: 'outfit_partyDress', category: 'outfit', rarity: 'legendary', themeSet: 'set_partyPrincess', name: '반짝이 은하수 파티 드레스', cost: 26, desc: '별가루 레이스와 보석 리본이 반짝이는 파티 드레스예요.' },
+      { id: 'outfit_spaceSuit', category: 'outfit', rarity: 'legendary', themeSet: 'set_astronaut', name: '은하수 우주비행사 우주복', cost: 25, desc: '별 배지와 산소 팩 컨트롤러가 달린 멋진 하얀 우주복이에요.' },
+      { id: 'outfit_rabbitPajama', category: 'outfit', rarity: 'special', themeSet: 'set_animalPajama', name: '보들보들 토끼 잠옷', cost: 16, desc: '분홍 하트 단추가 달린 포근한 토끼 수면 잠옷이에요.' },
+      { id: 'outfit_teddyPajama', category: 'outfit', rarity: 'special', themeSet: 'set_animalPajama', name: '달콤 꿀벌 곰돌이 잠옷', cost: 16, desc: '따뜻한 코코아빛 곰돌이 배지가 달린 포근한 잠옷이에요.' },
+      { id: 'outfit_chickPajama', category: 'outfit', rarity: 'special', themeSet: 'set_animalPajama', name: '폭신폭신 병아리 잠옷', cost: 16, desc: '보송보송 노란 솜털 날개가 달린 귀여운 병아리 잠옷이에요.' },
+      { id: 'outfit_wizardCloak', category: 'outfit', rarity: 'legendary', themeSet: 'set_wizard', name: '밤하늘 별자리 마법사 망토', cost: 24, desc: '황금 별과 달이 빛나는 신비로운 보랏빛 마법 망토예요.' },
 
-      // Bags & Props (가방 · 소품 - 11종: 7세 여아 취향 맞춤)
-      { id: 'prop_pochette', category: 'prop', name: '분홍 곰돌이 포쉐트', cost: 0, desc: '치이카와가 가장 아끼는 귀여운 곰돌이 가방이에요.' },
-      { id: 'prop_milk', category: 'prop', name: '달콤 딸기 우유', cost: 7, desc: '빨대가 꽂힌 시원하고 달콤한 딸기 우유예요.' },
-      { id: 'prop_balloon', category: 'prop', name: '하트 리본 풍선', cost: 9, desc: '리본이 묶인 사랑스러운 분홍 하트 풍선이에요.' },
-      { id: 'prop_sasumata', category: 'prop', name: '꽃잎 리본 요술봉', cost: 14, desc: '꽃잎 날개와 리본이 달린 신비한 요술봉이에요.' },
-      { id: 'prop_heartWand', category: 'prop', name: '러블리 하트 요술봉', cost: 16, desc: '사랑의 마법을 부리는 반짝반짝 하트 요술봉이에요.' },
-      { id: 'prop_melonSoda', category: 'prop', name: '체리 핑크 크림소다', cost: 12, desc: '체리와 생크림이 올라간 달콤한 핑크 음료예요.' },
-      { id: 'prop_pudding', category: 'prop', name: '딸기 생크림 케이크', cost: 14, desc: '빨간 딸기가 쏙 올라간 조각 케이크 접시예요.' },
-      { id: 'prop_starWand', category: 'prop', name: '별빛 천사 마법봉', cost: 18, desc: '날개 달린 황금 별이 빛나는 마법봉이에요.' },
-      { id: 'prop_yellowBag', category: 'prop', name: '하얀 토끼 크로스백', cost: 15, desc: '쫑긋 토끼 귀가 달린 폭신한 미니 가방이에요.' },
-      { id: 'prop_bunnyPlush', category: 'prop', name: '리본 토끼 애착인형', cost: 19, desc: '분홍 리본을 맨 폭신폭신 토끼 인형이에요.' },
-      { id: 'prop_camera', category: 'prop', name: '하트 보석 카메라', cost: 22, desc: '예쁜 추억을 반짝 찰칵 찍는 파스텔 카메라예요.' },
+      // ==================== Bags & Props (가방 · 소품 - 19종) ====================
+      { id: 'prop_pochette', category: 'prop', rarity: 'common', name: '분홍 곰돌이 포쉐트', cost: 0, desc: '치이카와가 가장 아끼는 귀여운 곰돌이 가방이에요.' },
+      { id: 'prop_milk', category: 'prop', rarity: 'common', name: '달콤 딸기 우유', cost: 7, desc: '빨대가 꽂힌 시원하고 달콤한 딸기 우유예요.' },
+      { id: 'prop_balloon', category: 'prop', rarity: 'common', name: '하트 리본 풍선', cost: 9, desc: '리본이 묶인 사랑스러운 분홍 하트 풍선이에요.' },
+      { id: 'prop_sasumata', category: 'prop', rarity: 'special', name: '꽃잎 리본 요술봉', cost: 14, desc: '꽃잎 날개와 리본이 달린 신비한 요술봉이에요.' },
+      { id: 'prop_heartWand', category: 'prop', rarity: 'special', name: '러블리 하트 요술봉', cost: 16, desc: '사랑의 마법을 부리는 반짝반짝 하트 요술봉이에요.' },
+      { id: 'prop_melonSoda', category: 'prop', rarity: 'common', name: '체리 핑크 크림소다', cost: 12, desc: '체리와 생크림이 올라간 달콤한 핑크 음료예요.' },
+      { id: 'prop_pudding', category: 'prop', rarity: 'common', name: '딸기 생크림 케이크', cost: 14, desc: '빨간 딸기가 쏙 올라간 조각 케이크 접시예요.' },
+      { id: 'prop_starWand', category: 'prop', rarity: 'special', name: '별빛 천사 마법봉', cost: 18, desc: '날개 달린 황금 별이 빛나는 마법봉이에요.' },
+      { id: 'prop_yellowBag', category: 'prop', rarity: 'common', name: '하얀 토끼 크로스백', cost: 15, desc: '쫑긋 토끼 귀가 달린 폭신한 미니 가방이에요.' },
+      { id: 'prop_bunnyPlush', category: 'prop', rarity: 'special', name: '리본 토끼 애착인형', cost: 19, desc: '분홍 리본을 맨 폭신폭신 토끼 인형이에요.' },
+      { id: 'prop_camera', category: 'prop', rarity: 'legendary', name: '하트 보석 카메라', cost: 22, desc: '예쁜 추억을 반짝 찰칵 찍는 파스텔 카메라예요.' },
+      // 신규 가방/소품 8종
+      { id: 'prop_randoseru', category: 'prop', rarity: 'special', themeSet: 'set_elementary', name: '반짝 빨간 초등 책가방', cost: 16, desc: '노란 안전 열쇠고리가 달린 튼튼한 예비 초등생 책가방이에요.' },
+      { id: 'prop_snowmanFriend', category: 'prop', rarity: 'special', themeSet: 'set_winterSanta', name: '당근 코 꼬마 눈사람', cost: 16, desc: '빨간 목도리를 두른 동글동글 귀여운 미니 눈사람 친구예요.' },
+      { id: 'prop_glassSlipper', category: 'prop', rarity: 'legendary', themeSet: 'set_partyPrincess', name: '반짝반짝 유리구두 쿠션', cost: 21, desc: '분홍 벨벳 방석 위에 놓인 영롱한 공주님 유리구두예요.' },
+      { id: 'prop_miniRocket', category: 'prop', rarity: 'legendary', themeSet: 'set_astronaut', name: '출발! 무지개 미니 로켓', cost: 22, desc: '별빛 불꽃을 뿜으며 우주로 날아가는 귀여운 우주선이에요.' },
+      { id: 'prop_carrotCushion', category: 'prop', rarity: 'special', themeSet: 'set_animalPajama', name: '달콤 주황 당근 쿠션', cost: 14, desc: '토끼 잠옷과 찰떡궁합인 폭신폭신 당근 인형 쿠션이에요.' },
+      { id: 'prop_honeyPot', category: 'prop', rarity: 'special', themeSet: 'set_animalPajama', name: '달콤황금 꿀단지', cost: 14, desc: '곰돌이 친구가 가장 좋아하는 달콤한 꿀이 가득한 단지예요.' },
+      { id: 'prop_chickDoll', category: 'prop', rarity: 'special', themeSet: 'set_animalPajama', name: '알껍질 꼬마 병아리', cost: 14, desc: '하얀 달걀 껍질에서 쏙 고개를 내민 귀여운 병아리 친구예요.' },
+      { id: 'prop_magicSpellbook', category: 'prop', rarity: 'legendary', themeSet: 'set_wizard', name: '황금 별빛 고대 마법서', cost: 20, desc: '펼치면 반짝이는 무지개 주문이 떠오르는 신비한 마법책이에요.' },
 
-      // Background Stages (배경 무대 - 11종: 7세 여아 취향 맞춤)
-      { id: 'bg_sunnyRoom', category: 'bg', name: '따뜻한 햇살 방', cost: 0, desc: '포근한 햇살과 꽃잎이 반겨주는 기본 무대예요.' },
-      { id: 'bg_sakura', category: 'bg', name: '벚꽃 피크닉', cost: 10, desc: '분홍빛 벚꽃잎이 살랑살랑 흩날리는 봄날 피크닉이에요.' },
-      { id: 'bg_starryNight', category: 'bg', name: '초승달 요정 구름', cost: 14, desc: '초승달과 반짝이는 별들 사이의 포근한 구름 위예요.' },
-      { id: 'bg_sweetsParty', category: 'bg', name: '무지개 디저트 파티', cost: 18, desc: '무지개와 달콤한 하트가 가득한 파티 무대예요.' },
-      { id: 'bg_cloverMeadow', category: 'bg', name: '꽃나비 화원 들판', cost: 12, desc: '알록달록 꽃송이와 나비가 춤추는 화원이에요.' },
-      { id: 'bg_peachSunset', category: 'bg', name: '복숭아빛 하트 노을', cost: 15, desc: '따뜻한 분홍빛 노을과 하트 구름이 물드는 언덕이에요.' },
-      { id: 'bg_mintGarden', category: 'bg', name: '민트 데이지 꽃밭', cost: 17, desc: '상쾌한 민트 바람과 하얀 데이지꽃이 피어난 정원이에요.' },
-      { id: 'bg_skyCastle', category: 'bg', name: '핑크 프린세스 성', cost: 20, desc: '구름 위에 떠 있는 사랑스러운 분홍 공주님 성이에요.' },
-      { id: 'bg_oceanBubble', category: 'bg', name: '인어공주 진주 바다', cost: 21, desc: '반짝이는 진주 방울과 조개껍데기의 바닷속 궁전이에요.' },
-      { id: 'bg_berryCafe', category: 'bg', name: '딸기 마카롱 카페', cost: 24, desc: '달콤한 딸기와 마카롱 향기가 가득한 디저트 카페예요.' },
-      { id: 'bg_auroraDream', category: 'bg', name: '유니콘 오로라 궁전', cost: 28, desc: '신비로운 파스텔 오로라와 별빛이 내리는 꿈결 마을이에요.' }
+      // ==================== Background Stages (배경 무대 - 19종) ====================
+      { id: 'bg_sunnyRoom', category: 'bg', rarity: 'common', name: '따뜻한 햇살 방', cost: 0, desc: '포근한 햇살과 꽃잎이 반겨주는 기본 무대예요.' },
+      { id: 'bg_sakura', category: 'bg', rarity: 'common', name: '벚꽃 피크닉', cost: 10, desc: '분홍빛 벚꽃잎이 살랑살랑 흩날리는 봄날 피크닉이에요.' },
+      { id: 'bg_starryNight', category: 'bg', rarity: 'common', name: '초승달 요정 구름', cost: 14, desc: '초승달과 반짝이는 별들 사이의 포근한 구름 위예요.' },
+      { id: 'bg_sweetsParty', category: 'bg', rarity: 'special', name: '무지개 디저트 파티', cost: 18, desc: '무지개와 달콤한 하트가 가득한 파티 무대예요.' },
+      { id: 'bg_cloverMeadow', category: 'bg', rarity: 'common', name: '꽃나비 화원 들판', cost: 12, desc: '알록달록 꽃송이와 나비가 춤추는 화원이에요.' },
+      { id: 'bg_peachSunset', category: 'bg', rarity: 'common', name: '복숭아빛 하트 노을', cost: 15, desc: '따뜻한 분홍빛 노을과 하트 구름이 물드는 언덕이에요.' },
+      { id: 'bg_mintGarden', category: 'bg', rarity: 'special', name: '민트 데이지 꽃밭', cost: 17, desc: '상쾌한 민트 바람과 하얀 데이지꽃이 피어난 정원이에요.' },
+      { id: 'bg_skyCastle', category: 'bg', rarity: 'special', name: '핑크 프린세스 성', cost: 20, desc: '구름 위에 떠 있는 사랑스러운 분홍 공주님 성이에요.' },
+      { id: 'bg_oceanBubble', category: 'bg', rarity: 'special', name: '인어공주 진주 바다', cost: 21, desc: '반짝이는 진주 방울과 조개껍데기의 바닷속 궁전이에요.' },
+      { id: 'bg_berryCafe', category: 'bg', rarity: 'legendary', name: '딸기 마카롱 카페', cost: 24, desc: '달콤한 딸기와 마카롱 향기가 가득한 디저트 카페예요.' },
+      { id: 'bg_auroraDream', category: 'bg', rarity: 'legendary', name: '유니콘 오로라 궁전', cost: 28, desc: '신비로운 파스텔 오로라와 별빛이 내리는 꿈결 마을이에요.' },
+      // 신규 배경 무대 8종 (스페셜 테마 & 계절 배경)
+      { id: 'bg_schoolGate', category: 'bg', rarity: 'special', themeSet: 'set_elementary', name: '벚꽃 흩날리는 초등학교 교문', cost: 18, desc: '입학 축하 풍선과 벚꽃잎이 반겨주는 설레는 학교 앞이에요.' },
+      { id: 'bg_winterVillage', category: 'bg', rarity: 'special', themeSet: 'set_winterSanta', name: '함박눈 크리스마스 트리 마을', cost: 20, desc: '반짝이는 크리스마스트리와 하얀 눈이 소복이 쌓인 마을이에요.' },
+      { id: 'bg_ballroomHall', category: 'bg', rarity: 'legendary', themeSet: 'set_partyPrincess', name: '황금 샹들리에 무도회 궁전', cost: 26, desc: '화려한 샹들리에와 별빛 커튼이 빛나는 파티 무도회장예요.' },
+      { id: 'bg_spaceStation', category: 'bg', rarity: 'legendary', themeSet: 'set_astronaut', name: '토성 고리 은하수 우주정거장', cost: 26, desc: '반짝이는 행성과 별똥별이 지나가는 신비한 우주 무대예요.' },
+      { id: 'bg_pajamaRoom', category: 'bg', rarity: 'special', themeSet: 'set_animalPajama', name: '구름 인형 파자마 파티룸', cost: 18, desc: '폭신한 별 쿠션과 가랜드가 꾸며진 포근한 파자마 방이에요.' },
+      { id: 'bg_magicLibrary', category: 'bg', rarity: 'legendary', themeSet: 'set_wizard', name: '둥둥 떠다니는 별빛 마법 도서관', cost: 25, desc: '마법 촛불과 신비한 별빛 구슬이 빛나는 비밀 마법 공간이에요.' },
+      { id: 'bg_rainbowCloud', category: 'bg', rarity: 'special', name: '솜사탕 무지개 구름 다리', cost: 19, desc: '알록달록 무지개 다리와 솜사탕 구름 위를 걷는 하늘 정원이에요.' },
+      { id: 'bg_candyLand', category: 'bg', rarity: 'legendary', name: '롤리팝 캔디 스위트 성', cost: 27, desc: '달콤한 막대사탕과 별 쿠키가 가득한 환상의 과자 나라예요.' }
     ];
 
     const DEFAULT_EQUIPPED = {
@@ -2070,6 +2284,75 @@
           <path d="M20 42Q44 26 62 38T84 34" fill="none" stroke="#C3B2F7" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
           <circle cx="26" cy="20" r="1.8" fill="#FCE279"/><circle cx="76" cy="18" r="1.8" fill="#FCE279"/>
           <ellipse cx="50" cy="88" rx="34" ry="6.5" fill="#595085"/>
+        `;
+      } else if (eq.bg === 'bg_schoolGate') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#EBF6FF"/>
+          <rect x="17" y="42" width="10" height="44" rx="2" fill="#F6D6AD" stroke="#3D332A" stroke-width="1.4"/>
+          <rect x="73" y="42" width="10" height="44" rx="2" fill="#F6D6AD" stroke="#3D332A" stroke-width="1.4"/>
+          <circle cx="22" cy="22" r="4" fill="#F7A8B8" opacity="0.85"/>
+          <circle cx="79" cy="20" r="4" fill="#FCE279" opacity="0.9"/>
+          <ellipse cx="50" cy="87" rx="38" ry="7" fill="#D5E8C8"/>
+        `;
+      } else if (eq.bg === 'bg_winterVillage') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#274060"/>
+          <polygon points="22,64 13,82 31,82" fill="#5FA37B" stroke="#23372C" stroke-width="1.3"/>
+          <polygon points="22,52 15,67 29,67" fill="#77BE94" stroke="#23372C" stroke-width="1.3"/>
+          <circle cx="22" cy="50" r="2.2" fill="#FCE279"/>
+          <circle cx="76" cy="24" r="2" fill="#FFFFFF"/><circle cx="34" cy="18" r="2" fill="#FFFFFF"/>
+          <circle cx="80" cy="54" r="2.2" fill="#FFFFFF"/><circle cx="18" cy="34" r="1.8" fill="#FFFFFF"/>
+          <ellipse cx="50" cy="87" rx="39" ry="8" fill="#EEF6FF"/>
+        `;
+      } else if (eq.bg === 'bg_ballroomHall') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#FFF3FA"/>
+          <path d="M12 18Q30 34 50 18Q70 34 88 18" fill="none" stroke="#EAB938" stroke-width="2.4"/>
+          <circle cx="50" cy="14" r="4" fill="#FCE279" stroke="#EAB938" stroke-width="1.3"/>
+          <circle cx="22" cy="34" r="2.5" fill="#FCE279"/><circle cx="78" cy="34" r="2.5" fill="#FCE279"/>
+          <ellipse cx="50" cy="87" rx="38" ry="7.5" fill="#F9D8E6"/>
+        `;
+      } else if (eq.bg === 'bg_spaceStation') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#1D2242"/>
+          <circle cx="76" cy="24" r="7" fill="#F7A8B8"/>
+          <ellipse cx="76" cy="24" rx="13" ry="3.2" transform="rotate(-18 76 24)" fill="none" stroke="#FCE279" stroke-width="1.8"/>
+          <circle cx="24" cy="22" r="2" fill="#FCE279"/><circle cx="32" cy="14" r="1.5" fill="#FFFFFF"/>
+          <circle cx="82" cy="64" r="1.8" fill="#9ED6C3"/><circle cx="19" cy="58" r="1.6" fill="#FCE279"/>
+          <ellipse cx="50" cy="88" rx="35" ry="6.5" fill="#3D467A"/>
+        `;
+      } else if (eq.bg === 'bg_pajamaRoom') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#FDF2F8"/>
+          <path d="M14 22L26 28L38 22L50 28L62 22L74 28L86 22" fill="none" stroke="#F7A8B8" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="22" cy="78" r="6" fill="#FCE279" opacity="0.8"/>
+          <circle cx="79" cy="78" r="6" fill="#C3B2F7" opacity="0.8"/>
+          <ellipse cx="50" cy="87" rx="36" ry="7" fill="#F6DCE8"/>
+        `;
+      } else if (eq.bg === 'bg_magicLibrary') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#31244A"/>
+          <circle cx="23" cy="25" r="4" fill="#C3B2F7" opacity="0.7"/>
+          <circle cx="78" cy="23" r="4.5" fill="#FCE279" opacity="0.75"/>
+          <path d="M18 74L24 68L30 74" fill="none" stroke="#FCE279" stroke-width="1.6"/>
+          <ellipse cx="50" cy="88" rx="35" ry="7" fill="#523E78"/>
+        `;
+      } else if (eq.bg === 'bg_rainbowCloud') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#E8F8FF"/>
+          <path d="M14 48A36 36 0 0 1 86 48" fill="none" stroke="#F7A8B8" stroke-width="4.5" opacity="0.65"/>
+          <path d="M19 48A31 31 0 0 1 81 48" fill="none" stroke="#FCE279" stroke-width="4.5" opacity="0.75"/>
+          <path d="M24 48A26 26 0 0 1 76 48" fill="none" stroke="#9ED6C3" stroke-width="4.5" opacity="0.65"/>
+          <path d="M18 86Q34 78 50 84Q66 78 82 86Q66 93 50 91Q34 93 18 86Z" fill="#FFFFFF"/>
+        `;
+      } else if (eq.bg === 'bg_candyLand') {
+        bgSvg = `
+          <circle cx="50" cy="50" r="47" fill="#FFF0F6"/>
+          <circle cx="23" cy="26" r="6" fill="#F7A8B8" stroke="#FFFFFF" stroke-width="2"/>
+          <line x1="23" y1="32" x2="23" y2="45" stroke="#E28F8F" stroke-width="2"/>
+          <circle cx="78" cy="26" r="6" fill="#9ED6C3" stroke="#FFFFFF" stroke-width="2"/>
+          <line x1="78" y1="32" x2="78" y2="45" stroke="#6E9EB0" stroke-width="2"/>
+          <ellipse cx="50" cy="87" rx="36" ry="7" fill="#FAD2E1"/>
         `;
       } else {
         bgSvg = `
@@ -2211,6 +2494,54 @@
           <path d="M40 69Q50 75 60 69" fill="#FFFDF6" stroke="#3D332A" stroke-width="1.5"/>
           <circle cx="50" cy="76" r="2" fill="#EAB938"/><circle cx="50" cy="81" r="2" fill="#EAB938"/>
         `;
+      } else if (eq.outfit === 'outfit_schoolUniform') {
+        outfitSvg = `
+          <path d="M34 68Q50 74 66 68L69 85H31Z" fill="#32466E" stroke="#3D332A" stroke-width="2.1" stroke-linejoin="round"/>
+          <polygon points="38,68 50,77 62,68" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.5"/>
+          <polygon points="50,73 45,70 45,76" fill="#F25C78"/><polygon points="50,73 55,70 55,76" fill="#F25C78"/>
+          <circle cx="50" cy="80" r="1.7" fill="#FCE279"/>
+        `;
+      } else if (eq.outfit === 'outfit_santaCoat') {
+        outfitSvg = `
+          <path d="M33 68Q50 75 67 68L70 85H30Z" fill="#E85A6B" stroke="#3D332A" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M34 69Q50 74 66 69" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+          <path d="M54 71L57 83" stroke="#9ED6C3" stroke-width="4.5" stroke-linecap="round"/>
+          <circle cx="50" cy="79" r="1.8" fill="#FCE279"/>
+        `;
+      } else if (eq.outfit === 'outfit_partyDress') {
+        outfitSvg = `
+          <path d="M33 68Q50 75 67 68L73 85Q50 89 27 85Z" fill="#FFE6F2" stroke="#3D332A" stroke-width="2.1" stroke-linejoin="round"/>
+          <path d="M36 77Q50 82 64 77" fill="none" stroke="#EAB938" stroke-width="2"/>
+          <circle cx="43" cy="81" r="1.6" fill="#FCE279"/><circle cx="50" cy="82" r="1.8" fill="#F48FB1"/><circle cx="57" cy="81" r="1.6" fill="#FCE279"/>
+        `;
+      } else if (eq.outfit === 'outfit_spaceSuit') {
+        outfitSvg = `
+          <path d="M33 68Q50 74 67 68L70 85H30Z" fill="#F4F8FF" stroke="#3D332A" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="43" y="73" width="14" height="8" rx="2.5" fill="#7EA6D8" stroke="#3D332A" stroke-width="1.4"/>
+          <circle cx="47" cy="77" r="1.4" fill="#F25C78"/><circle cx="53" cy="77" r="1.4" fill="#FCE279"/>
+        `;
+      } else if (eq.outfit === 'outfit_rabbitPajama') {
+        outfitSvg = `
+          <path d="M34 68Q50 74 66 68L69 85H31Z" fill="#FADCE6" stroke="#3D332A" stroke-width="2.1" stroke-linejoin="round"/>
+          <circle cx="50" cy="75" r="2.2" fill="#F25C78"/><circle cx="50" cy="81" r="2.2" fill="#F25C78"/>
+        `;
+      } else if (eq.outfit === 'outfit_teddyPajama') {
+        outfitSvg = `
+          <path d="M34 68Q50 74 66 68L69 85H31Z" fill="#D9A87E" stroke="#3D332A" stroke-width="2.1" stroke-linejoin="round"/>
+          <ellipse cx="50" cy="78" rx="7" ry="5" fill="#FFFDF6" stroke="#3D332A" stroke-width="1.4"/>
+        `;
+      } else if (eq.outfit === 'outfit_chickPajama') {
+        outfitSvg = `
+          <path d="M34 68Q50 74 66 68L69 85H31Z" fill="#FFF099" stroke="#3D332A" stroke-width="2.1" stroke-linejoin="round"/>
+          <polygon points="46,74 54,74 50,79" fill="#F59B42" stroke="#3D332A" stroke-width="1.3"/>
+        `;
+      } else if (eq.outfit === 'outfit_wizardCloak') {
+        outfitSvg = `
+          <path d="M32 68Q50 75 68 68L73 85Q50 88 27 85Z" fill="#5D488A" stroke="#3D332A" stroke-width="2.2" stroke-linejoin="round"/>
+          <polygon points="50,71 44,67 44,75" fill="#FCE279" stroke="#3D332A" stroke-width="1.3"/>
+          <polygon points="50,71 56,67 56,75" fill="#FCE279" stroke="#3D332A" stroke-width="1.3"/>
+          <circle cx="40" cy="80" r="1.6" fill="#FCE279"/><circle cx="60" cy="80" r="1.6" fill="#FCE279"/>
+        `;
       }
 
       // Layer 2: Head Accessories
@@ -2274,6 +2605,51 @@
         headSvg = `
           <polygon points="38,31 40,20 46,27 50,17 54,27 60,20 62,31" fill="#F7A8B8" stroke="#3D332A" stroke-width="2" stroke-linejoin="round"/>
           <circle cx="50" cy="26" r="2.4" fill="#FCE279"/>
+        `;
+      } else if (eq.head === 'head_schoolCap') {
+        headSvg = `
+          <path d="M35 30C36 20 64 20 65 30Z" fill="#FCE279" stroke="#3D332A" stroke-width="2"/>
+          <path d="M32 30H68" stroke="#3D332A" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="50" cy="25" r="2.4" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.3"/>
+        `;
+      } else if (eq.head === 'head_santaHat') {
+        headSvg = `
+          <path d="M35 31L52 13L66 29Z" fill="#E85A6B" stroke="#3D332A" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="33" y="28" width="34" height="5.5" rx="2.7" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.6"/>
+          <circle cx="67" cy="26" r="3.6" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.6"/>
+        `;
+      } else if (eq.head === 'head_partyCrown') {
+        headSvg = `
+          <polygon points="37,31 39,19 45,26 50,15 55,26 61,19 63,31" fill="#FCE279" stroke="#3D332A" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="44" cy="26" r="1.8" fill="#7EA6D8"/><circle cx="50" cy="24" r="2.2" fill="#F25C78"/><circle cx="56" cy="26" r="1.8" fill="#9ED6C3"/>
+        `;
+      } else if (eq.head === 'head_spaceHelmet') {
+        headSvg = `
+          <circle cx="50" cy="49" r="30.5" fill="rgba(210, 240, 255, 0.24)" stroke="#7EA6D8" stroke-width="2.4"/>
+          <path d="M29 34A24 24 0 0 1 45 22" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+        `;
+      } else if (eq.head === 'head_rabbitHood') {
+        headSvg = `
+          <ellipse cx="40" cy="17" rx="4.2" ry="11" fill="#FADCE6" stroke="#3D332A" stroke-width="1.9"/>
+          <ellipse cx="60" cy="17" rx="4.2" ry="11" fill="#FADCE6" stroke="#3D332A" stroke-width="1.9"/>
+          <path d="M33 34C35 24 65 24 67 34" fill="none" stroke="#F7A8B8" stroke-width="5" stroke-linecap="round"/>
+        `;
+      } else if (eq.head === 'head_teddyHood') {
+        headSvg = `
+          <circle cx="34" cy="26" r="6" fill="#C98A55" stroke="#3D332A" stroke-width="2"/>
+          <circle cx="66" cy="26" r="6" fill="#C98A55" stroke="#3D332A" stroke-width="2"/>
+          <path d="M34 34C36 25 64 25 66 34" fill="none" stroke="#C98A55" stroke-width="5" stroke-linecap="round"/>
+        `;
+      } else if (eq.head === 'head_chickHood') {
+        headSvg = `
+          <path d="M47 23Q50 16 53 23" fill="none" stroke="#F59B42" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M34 34C36 24 64 24 66 34" fill="none" stroke="#FCE279" stroke-width="5.5" stroke-linecap="round"/>
+        `;
+      } else if (eq.head === 'head_wizardHat') {
+        headSvg = `
+          <polygon points="35,30 50,10 65,30" fill="#5D488A" stroke="#3D332A" stroke-width="2" stroke-linejoin="round"/>
+          <ellipse cx="50" cy="30" rx="19" ry="4" fill="#5D488A" stroke="#3D332A" stroke-width="1.8"/>
+          <circle cx="50" cy="22" r="2.2" fill="#FCE279"/>
         `;
       }
 
@@ -2344,9 +2720,95 @@
           <rect x="67" y="68" width="15" height="11" rx="3" fill="#F9B8C8" stroke="#3D332A" stroke-width="1.8"/>
           <circle cx="74.5" cy="73.5" r="3.2" fill="#FFFDF6" stroke="#3D332A" stroke-width="1.6"/>
         `;
+      } else if (eq.prop === 'prop_randoseru') {
+        propSvg = `
+          <rect x="67" y="63" width="14" height="18" rx="4" fill="#E85A6B" stroke="#3D332A" stroke-width="1.9"/>
+          <line x1="67" y1="71" x2="81" y2="71" stroke="#3D332A" stroke-width="1.5"/>
+          <circle cx="74" cy="75" r="1.6" fill="#FCE279"/>
+        `;
+      } else if (eq.prop === 'prop_snowmanFriend') {
+        propSvg = `
+          <circle cx="76" cy="79" r="6" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.8"/>
+          <circle cx="76" cy="70" r="4.5" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.8"/>
+          <line x1="72" y1="74" x2="80" y2="74" stroke="#E85A6B" stroke-width="2.2"/>
+          <polygon points="76,70 81,71 76,72" fill="#F59B42"/>
+        `;
+      } else if (eq.prop === 'prop_glassSlipper') {
+        propSvg = `
+          <ellipse cx="75" cy="81" rx="9" ry="3.5" fill="#F7A8B8" stroke="#3D332A" stroke-width="1.5"/>
+          <path d="M69 79L73 74L79 79Z" fill="#D4F1FF" stroke="#3D332A" stroke-width="1.5"/>
+        `;
+      } else if (eq.prop === 'prop_miniRocket') {
+        propSvg = `
+          <ellipse cx="76" cy="69" rx="5" ry="10" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.8"/>
+          <polygon points="76,56 72,63 80,63" fill="#F25C78" stroke="#3D332A" stroke-width="1.5"/>
+          <circle cx="76" cy="69" r="2.2" fill="#7EA6D8"/>
+        `;
+      } else if (eq.prop === 'prop_carrotCushion') {
+        propSvg = `
+          <polygon points="75,84 70,68 80,68" fill="#F59B42" stroke="#3D332A" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M75 68L72 62M75 68L78 62" stroke="#8BA672" stroke-width="2" stroke-linecap="round"/>
+        `;
+      } else if (eq.prop === 'prop_honeyPot') {
+        propSvg = `
+          <ellipse cx="75" cy="76" rx="7" ry="6.5" fill="#E8A856" stroke="#3D332A" stroke-width="1.8"/>
+          <path d="M69 72Q75 76 81 72" fill="#FCE279"/>
+        `;
+      } else if (eq.prop === 'prop_chickDoll') {
+        propSvg = `
+          <circle cx="75" cy="75" r="5.5" fill="#FCE279" stroke="#3D332A" stroke-width="1.7"/>
+          <path d="M69 76L72 74L75 77L78 74L81 76V81H69Z" fill="#FFFFFF" stroke="#3D332A" stroke-width="1.5"/>
+        `;
+      } else if (eq.prop === 'prop_magicSpellbook') {
+        propSvg = `
+          <rect x="67" y="66" width="15" height="16" rx="2.5" fill="#6D539E" stroke="#3D332A" stroke-width="1.8"/>
+          <polygon points="74.5,70 75.8,73 79,73 76.5,75 77.5,78 74.5,76 71.5,78 72.5,75 70,73 73.2,73" fill="#FCE279"/>
+        `;
       }
 
-      return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true">${bgSvg}${bodySvg}${outfitSvg}${headSvg}${propSvg}</svg>`;
+      // Layer 4: Theme Set Special Visual Effect Overlay
+      const activeSet = getActiveThemeSet(eq);
+      let effectSvg = '';
+      if (activeSet) {
+        if (activeSet.effectType === 'snow') {
+          effectSvg = `
+            <g opacity="0.92">
+              <circle cx="20" cy="22" r="2.4" fill="#FFFFFF"/><circle cx="80" cy="20" r="2.6" fill="#FFFFFF"/>
+              <circle cx="16" cy="52" r="2.2" fill="#FFFFFF"/><circle cx="84" cy="48" r="2.4" fill="#FFFFFF"/>
+              <circle cx="28" cy="78" r="2" fill="#FFFFFF"/><circle cx="72" cy="80" r="2.2" fill="#FFFFFF"/>
+              <path d="M77 12V18M74 15H80" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+            </g>
+          `;
+        } else if (activeSet.effectType === 'petals') {
+          effectSvg = `
+            <g opacity="0.9">
+              <ellipse cx="20" cy="24" rx="3.4" ry="2" transform="rotate(-25 20 24)" fill="#F7A8B8"/>
+              <ellipse cx="81" cy="26" rx="3.4" ry="2" transform="rotate(25 81 26)" fill="#F7A8B8"/>
+              <ellipse cx="18" cy="64" rx="3" ry="1.8" transform="rotate(20 18 64)" fill="#F9C5D1"/>
+              <ellipse cx="82" cy="66" rx="3.2" ry="1.9" transform="rotate(-20 82 66)" fill="#F9C5D1"/>
+            </g>
+          `;
+        } else if (activeSet.effectType === 'hearts') {
+          effectSvg = `
+            <g opacity="0.92">
+              <path d="M21 25C17 21 17 17 20 17C21 17 21 18 21 18C21 18 21 17 22 17C25 17 25 21 21 25Z" fill="#F48FB1"/>
+              <path d="M80 24C76 20 76 16 79 16C80 16 80 17 80 17C80 17 80 16 81 16C84 16 84 20 80 24Z" fill="#F7A8B8"/>
+              <circle cx="18" cy="60" r="2.4" fill="#FCE279"/><circle cx="83" cy="60" r="2.4" fill="#FCE279"/>
+            </g>
+          `;
+        } else {
+          // sparkles / stars / magic
+          effectSvg = `
+            <g opacity="0.95">
+              <polygon points="21,15 22.3,18.5 26,18.5 23,20.7 24,24 21,22 18,24 19,20.7 16,18.5 19.7,18.5" fill="#FCE279"/>
+              <polygon points="80,17 81,19.8 84,19.8 81.6,21.5 82.4,24.2 80,22.5 77.6,24.2 78.4,21.5 76,19.8 79,19.8" fill="#FCE279"/>
+              <circle cx="17" cy="56" r="2.2" fill="#FFF4B8"/><circle cx="84" cy="56" r="2.2" fill="#FFF4B8"/>
+            </g>
+          `;
+        }
+      }
+
+      return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" aria-hidden="true">${bgSvg}${bodySvg}${outfitSvg}${headSvg}${propSvg}${effectSvg}</svg>`;
     }
 
     /* ==========================================================================
@@ -2743,6 +3205,8 @@
           { id: 'tx_init', dateKey: todayStr, amount: 6, reason: '환영 선물 스티커', createdAt: new Date().toISOString() }
         ],
         unlockedAccessories: ['head_none', 'outfit_none', 'prop_pochette', 'bg_sunnyRoom'],
+        unlockedThemeBgs: [],
+        gachaPullCount: 0,
         companionOverrides: {},
         accessoryCostOverrides: {},
         rewards: [
@@ -2859,6 +3323,8 @@
       if (!merged.awardedLog || typeof merged.awardedLog !== 'object') merged.awardedLog = {};
       if (!Array.isArray(merged.stickerTransactions)) merged.stickerTransactions = def.stickerTransactions;
       if (!Array.isArray(merged.unlockedAccessories)) merged.unlockedAccessories = def.unlockedAccessories;
+      if (!Array.isArray(merged.unlockedThemeBgs)) merged.unlockedThemeBgs = [];
+      merged.gachaPullCount = Math.max(0, Number(merged.gachaPullCount) || 0);
       if (!merged.companionOverrides || typeof merged.companionOverrides !== 'object') merged.companionOverrides = {};
       if (!merged.accessoryCostOverrides || typeof merged.accessoryCostOverrides !== 'object') merged.accessoryCostOverrides = {};
       merged.child.equipped = getNormalizedEquipped(merged.child);
@@ -3325,7 +3791,7 @@
             <section class="card card-pastel-yellow" style="display:flex; flex-direction:column; justify-content:space-between;">
               <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
                 <div style="display:flex; align-items:center; gap:12px; min-width:0;">
-                  <div class="buddy-avatar-circle" style="border-color:rgba(234,185,56,0.55); overflow:hidden;">
+                  <div class="buddy-avatar-circle ${getActiveThemeSet(getNormalizedEquipped(state.child)) ? 'set-effect-aura' : ''}" style="border-color:rgba(234,185,56,0.55); overflow:hidden;">
                     ${renderCompanionSVG(comp.id, stageInfo.stage, getNormalizedEquipped(state.child), 68)}
                   </div>
                   <div style="min-width:0;">
@@ -3820,13 +4286,121 @@
     }
 
     /* ==========================================================================
-       12. STICKER REWARD SHOP & COUPON WALLET ("보상 상점")
+       12. STICKER REWARD SHOP & GACHA CAPSULE MACHINE ("보상 상점" + "두근두근 캡슐 뽑기")
        ========================================================================== */
+    let rewardsSubTab = 'gacha'; // 'gacha' | 'coupons'
+    let gachaPulling = false;
+    let lastGachaResult = null;
+
+    const GACHA_COST_PER_PULL = 8;
+
+    function getRarityLabel(rarity) {
+      if (rarity === 'legendary') return { label: '✨ 전설 (LEGENDARY)', cls: 'rarity-legendary', refund: 6 };
+      if (rarity === 'special') return { label: '💎 스페셜 (SPECIAL)', cls: 'rarity-special', refund: 4 };
+      return { label: '🍀 일반 (NORMAL)', cls: 'rarity-common', refund: 3 };
+    }
+
+    function rollGachaReward() {
+      const ownedSet = new Set(state.unlockedAccessories || []);
+      const roll = Math.random() * 100;
+
+      // 15% chance for Direct Bonus Star Jackpot (10~15 stars)
+      if (roll < 15) {
+        const bonusStars = roll < 5 ? 15 : 10;
+        return {
+          kind: 'bonus_stars',
+          rarity: bonusStars >= 15 ? 'legendary' : 'special',
+          bonusStars,
+          isDuplicate: false
+        };
+      }
+
+      // Otherwise roll rarity tier: 52% common, 33% special, 15% legendary
+      const tierRoll = Math.random() * 100;
+      const targetRarity = tierRoll < 52 ? 'common' : (tierRoll < 85 ? 'special' : 'legendary');
+      const pool = ACCESSORIES_CATALOG.filter(a => a.cost > 0 && (a.rarity || 'common') === targetRarity);
+      const unownedInTier = pool.filter(a => !ownedSet.has(a.id));
+
+      // Gentle boost: if unowned items exist in tier, 75% chance to pick an unowned one so kids feel excited!
+      let picked = null;
+      if (unownedInTier.length > 0 && Math.random() < 0.75) {
+        picked = unownedInTier[Math.floor(Math.random() * unownedInTier.length)];
+      } else {
+        picked = pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      const isDuplicate = ownedSet.has(picked.id);
+      const rInfo = getRarityLabel(picked.rarity || 'common');
+      return {
+        kind: 'item',
+        item: picked,
+        rarity: picked.rarity || 'common',
+        isDuplicate,
+        refundStars: isDuplicate ? rInfo.refund : 0
+      };
+    }
+
     function renderRewardsView() {
       const vp = document.getElementById('mainViewport');
       const seoul = getSeoulNowParts();
       const rewards = (state.rewards || []).filter(r => r.enabled !== false);
       const coupons = (state.redeemedRewards || []).slice().reverse();
+      const activeComp = COMPANIONS_CATALOG.find(c => c.id === state.child.activeCompanionId) || COMPANIONS_CATALOG[0];
+      const activeStage = getCompanionStageInfo(activeComp, state.lifetimeStars).stage;
+      const ownedSet = new Set(state.unlockedAccessories || []);
+      const totalPaidItems = ACCESSORIES_CATALOG.filter(a => a.cost > 0).length;
+      const ownedPaidCount = ACCESSORIES_CATALOG.filter(a => a.cost > 0 && ownedSet.has(a.id)).length;
+
+      let gachaResultHTML = '';
+      if (gachaPulling) {
+        gachaResultHTML = `
+          <div style="padding:12px 0;">
+            <div style="font-size:18px; font-weight:900; color:#8C4A00;">🎰 데구르르~ 황금 별 캡슐이 내려오고 있어요!</div>
+            <p style="margin:4px 0 0; font-size:13px; font-weight:700; color:var(--text-secondary);">어떤 반짝이 선물이 들어있을까?</p>
+          </div>
+        `;
+      } else if (lastGachaResult) {
+        const rMeta = getRarityLabel(lastGachaResult.rarity);
+        if (lastGachaResult.kind === 'bonus_stars') {
+          gachaResultHTML = `
+            <div class="gacha-reveal-card" style="background:#FFFDF6; border:2px solid #EAB938; border-radius:20px; padding:16px; max-width:420px; margin:0 auto;">
+              <span class="rarity-badge ${rMeta.cls}">${rMeta.label}</span>
+              <div style="font-size:48px; margin:6px 0;">🌟⭐🌟</div>
+              <strong style="font-size:19px; display:block; color:#7A3E00;">대박! 보너스 별 ⭐ ${lastGachaResult.bonusStars}개 당첨!</strong>
+              <p style="margin:6px 0 0; font-size:13px; font-weight:700; color:var(--text-secondary);">
+                사용할 수 있는 별이 바로 <strong>+${lastGachaResult.bonusStars}개</strong> 늘어났어요!
+              </p>
+            </div>
+          `;
+        } else {
+          const item = lastGachaResult.item;
+          const previewEq = Object.assign({}, getNormalizedEquipped(state.child), { [item.category]: item.id });
+          const catKr = { head: '머리 장식', outfit: '의상', prop: '가방·소품', bg: '배경 무대' }[item.category] || '아이템';
+          gachaResultHTML = `
+            <div class="gacha-reveal-card" style="background:#FFFDF6; border:2px solid #EAB938; border-radius:20px; padding:16px; max-width:440px; margin:0 auto;">
+              <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="rarity-badge ${rMeta.cls}">${rMeta.label}</span>
+                <span class="sync-pill" style="font-size:11px;">${catKr}</span>
+              </div>
+              <div style="width:96px; height:96px; margin:0 auto 8px; border-radius:50%; overflow:hidden; border:2.5px solid #EAB938;">
+                ${renderCompanionSVG(activeComp.id, activeStage === 'egg' ? 'baby' : activeStage, previewEq, 96)}
+              </div>
+              <strong style="font-size:19px; display:block;">${escapeHTML(item.name)}</strong>
+              <p style="margin:4px 0 10px; font-size:12.5px; font-weight:700; color:var(--text-secondary);">${escapeHTML(item.desc)}</p>
+              ${lastGachaResult.isDuplicate ? `
+                <div style="background:var(--yellow-soft); color:var(--yellow-deep); border-radius:14px; padding:10px 12px; font-size:13px; font-weight:800;">
+                  ✨ 이미 옷장에 있는 아이템이라 <strong>반짝이 조각 ⭐ ${lastGachaResult.refundStars}개</strong>로 자동 환급되었어요!
+                </div>
+              ` : `
+                <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                  <button type="button" class="primary-btn" id="equipGachaItemBtn" data-item-id="${item.id}">🎀 지금 바로 입혀주기!</button>
+                  <button type="button" class="soft-action-btn" data-goto="adventure" style="background:#FFFDF6;">👗 옷장 구경하기 →</button>
+                </div>
+              `}
+            </div>
+          `;
+        }
+      }
 
       vp.innerHTML = `
         <div class="subview-container">
@@ -3837,61 +4411,209 @@
             </span>
           </div>
 
-          <div class="card">
-            <h2 style="margin:0 0 12px; font-size:18px; font-weight:900;">✨ 모은 별로 원하는 선물 쿠폰을 교환해요!</h2>
-            <div class="companions-grid" style="grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));">
-              ${rewards.map(rw => {
-                const canBuy = state.spendableStars >= rw.cost;
-                const progressPct = Math.min(100, Math.round((state.spendableStars / Math.max(1, rw.cost)) * 100));
-                return `
-                  <div class="companion-card ${canBuy ? 'selected' : ''}" style="justify-content:space-between;">
-                    <div style="font-size:48px; line-height:1.1;">${escapeHTML(rw.icon || '🎁')}</div>
-                    <strong style="font-size:17px;">${escapeHTML(rw.title)}</strong>
-                    <span class="task-sticker-tag" style="font-size:13.5px;">필요한 별 ⭐ ${rw.cost}개</span>
-                    <p style="margin:4px 0; font-size:12.5px; color:var(--text-secondary); font-weight:600;">${escapeHTML(rw.desc || '')}</p>
-                    <div class="progress-track" style="max-width:100%; height:10px; margin:4px 0;">
-                      <div class="progress-fill" style="width:${progressPct}%;"></div>
-                    </div>
-                    ${canBuy ? `
-                      <button type="button" class="primary-btn" style="width:100%;" data-redeem-reward="${rw.id}">
-                        🎁 선물 쿠폰으로 바꾸기!
-                      </button>
-                    ` : `
-                      <div style="font-size:12px; font-weight:800; color:var(--text-secondary); padding:8px 0;">
-                        앞으로 ⭐ ${rw.cost - state.spendableStars}개만 더 모으면 돼요!
-                      </div>
-                    `}
-                  </div>
-                `;
-              }).join('')}
-            </div>
+          <!-- Sub-tabs: Two-Exciting-Modes -->
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="parent-tab-btn ${rewardsSubTab === 'gacha' ? 'active' : ''}" data-rewards-tab="gacha" style="font-size:14.5px; padding:10px 16px;">
+              🎰 두근두근 캡슐 뽑기 (옷장 컬렉션)
+            </button>
+            <button type="button" class="parent-tab-btn ${rewardsSubTab === 'coupons' ? 'active' : ''}" data-rewards-tab="coupons" style="font-size:14.5px; padding:10px 16px;">
+              🎟️ 선물 쿠폰 교환소 (${coupons.length})
+            </button>
           </div>
 
-          <div class="card card-pastel-pink">
-            <h2 style="margin:0 0 10px; font-size:18px; font-weight:900; color:var(--pink-deep);">🎟️ 내 교환 완료 선물 쿠폰함</h2>
-            ${coupons.length === 0 ? `
-              <p style="margin:0; font-size:13.5px; font-weight:700; color:var(--pink-deep);">아직 교환한 선물 쿠폰이 없어요. 별을 모아 첫 번째 선물을 받아보자!</p>
-            ` : `
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                ${coupons.map(cp => `
-                  <div class="list-row" style="background:rgba(255,255,255,0.88);">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                      <span style="font-size:26px;">${escapeHTML(cp.icon || '🎁')}</span>
-                      <div>
-                        <strong>${escapeHTML(cp.title)}</strong>
-                        <div style="font-size:12px; color:var(--text-secondary); font-weight:700;">교환 날짜: ${cp.redeemedAt}</div>
-                      </div>
-                    </div>
-                    <span class="sync-pill" style="background:${cp.usedAt ? 'var(--bg-card-alt)' : 'var(--yellow-soft)'}; color:${cp.usedAt ? 'var(--text-secondary)' : 'var(--yellow-deep)'};">
-                      ${cp.usedAt ? '✅ 선물 전달 완료!' : '🎀 엄마·아빠께 보여주세요!'}
-                    </span>
-                  </div>
-                `).join('')}
+          ${rewardsSubTab === 'gacha' ? `
+            <div class="gacha-machine-box">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                <span class="sync-pill" style="background:#FFFDF6; border:1.5px solid #EAB938; color:#6E5311;">
+                  👗 내 옷장 수집률: <strong>${ownedPaidCount} / ${totalPaidItems}종</strong>
+                </span>
+                <span class="sync-pill" style="background:var(--pink-soft); color:var(--pink-deep);">
+                  🔄 중복 시 <strong>반짝이 조각(별 3~6개)</strong> 자동 환급!
+                </span>
               </div>
-            `}
-          </div>
+
+              <h2 style="margin:0 0 4px; font-size:21px; font-weight:900; color:#6E4200;">✨ 설레는 별빛 캡슐 뽑기 머신 ✨</h2>
+              <p style="margin:0 0 14px; font-size:13.5px; font-weight:700; color:var(--text-secondary);">
+                별 <strong>⭐ ${GACHA_COST_PER_PULL}개</strong>로 캡슐을 돌리면 <strong>일반 · 스페셜 · 전설</strong> 옷장 아이템이나 보너스 별이 나와요!
+              </p>
+
+              <div class="gacha-dome-stage ${gachaPulling ? 'shaking' : ''}" id="gachaDomeStage">
+                <svg viewBox="0 0 120 120" width="142" height="142" aria-hidden="true">
+                  <!-- Cute Capsules inside dome -->
+                  <circle cx="42" cy="76" r="16" fill="#F7A8B8" stroke="#3D332A" stroke-width="2.2"/>
+                  <path d="M26 76H58" stroke="#3D332A" stroke-width="2.2"/>
+                  <circle cx="42" cy="76" r="4" fill="#FFFDF6" stroke="#3D332A" stroke-width="1.8"/>
+
+                  <circle cx="76" cy="74" r="17" fill="#9ED6C3" stroke="#3D332A" stroke-width="2.2"/>
+                  <path d="M59 74H93" stroke="#3D332A" stroke-width="2.2"/>
+                  <circle cx="76" cy="74" r="4" fill="#FFFDF6" stroke="#3D332A" stroke-width="1.8"/>
+
+                  <circle cx="58" cy="48" r="19" fill="#FCE279" stroke="#3D332A" stroke-width="2.4"/>
+                  <path d="M39 48H77" stroke="#3D332A" stroke-width="2.4"/>
+                  <circle cx="58" cy="48" r="5" fill="#FFFDF6" stroke="#3D332A" stroke-width="2"/>
+                  <polygon points="58,20 60,25 65,25 61,28 62.5,33 58,30 53.5,33 55,28 51,25 56,25" fill="#F25C78"/>
+                </svg>
+              </div>
+
+              ${gachaResultHTML}
+
+              <div style="margin-top:14px; display:flex; flex-direction:column; align-items:center; gap:8px;">
+                <button type="button" class="primary-btn" id="spinGachaBtn"
+                  style="font-size:17px; padding:13px 28px; background:linear-gradient(180deg, #F5B82E 0%, #E09A14 100%); color:#3D2600; border:2px solid #B57600; box-shadow:0 6px 16px rgba(224,154,20,0.35);"
+                  ${gachaPulling ? 'disabled' : ''}>
+                  ${gachaPulling ? '🎰 캡슐 굴리는 중...' : `🌟 별 ⭐ ${GACHA_COST_PER_PULL}개로 캡슐 뽑기!`}
+                </button>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; font-size:11.5px; font-weight:800;">
+                  <span class="rarity-badge rarity-common">🍀 일반 (중복 시 ⭐3개 환급)</span>
+                  <span class="rarity-badge rarity-special">💎 스페셜 (중복 시 ⭐4개 환급)</span>
+                  <span class="rarity-badge rarity-legendary">✨ 전설 (중복 시 ⭐6개 환급)</span>
+                </div>
+              </div>
+            </div>
+          ` : `
+            <div class="card">
+              <h2 style="margin:0 0 12px; font-size:18px; font-weight:900;">✨ 모은 별로 원하는 선물 쿠폰을 교환해요!</h2>
+              <div class="companions-grid" style="grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));">
+                ${rewards.map(rw => {
+                  const canBuy = state.spendableStars >= rw.cost;
+                  const progressPct = Math.min(100, Math.round((state.spendableStars / Math.max(1, rw.cost)) * 100));
+                  return `
+                    <div class="companion-card ${canBuy ? 'selected' : ''}" style="justify-content:space-between;">
+                      <div style="font-size:48px; line-height:1.1;">${escapeHTML(rw.icon || '🎁')}</div>
+                      <strong style="font-size:17px;">${escapeHTML(rw.title)}</strong>
+                      <span class="task-sticker-tag" style="font-size:13.5px;">필요한 별 ⭐ ${rw.cost}개</span>
+                      <p style="margin:4px 0; font-size:12.5px; color:var(--text-secondary); font-weight:600;">${escapeHTML(rw.desc || '')}</p>
+                      <div class="progress-track" style="max-width:100%; height:10px; margin:4px 0;">
+                        <div class="progress-fill" style="width:${progressPct}%;"></div>
+                      </div>
+                      ${canBuy ? `
+                        <button type="button" class="primary-btn" style="width:100%;" data-redeem-reward="${rw.id}">
+                          🎁 선물 쿠폰으로 바꾸기!
+                        </button>
+                      ` : `
+                        <div style="font-size:12px; font-weight:800; color:var(--text-secondary); padding:8px 0;">
+                          앞으로 ⭐ ${rw.cost - state.spendableStars}개만 더 모으면 돼요!
+                        </div>
+                      `}
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="card card-pastel-pink">
+              <h2 style="margin:0 0 10px; font-size:18px; font-weight:900; color:var(--pink-deep);">🎟️ 내 교환 완료 선물 쿠폰함</h2>
+              ${coupons.length === 0 ? `
+                <p style="margin:0; font-size:13.5px; font-weight:700; color:var(--pink-deep);">아직 교환한 선물 쿠폰이 없어요. 별을 모아 첫 번째 선물을 받아보자!</p>
+              ` : `
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  ${coupons.map(cp => `
+                    <div class="list-row" style="background:rgba(255,255,255,0.88);">
+                      <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:26px;">${escapeHTML(cp.icon || '🎁')}</span>
+                        <div>
+                          <strong>${escapeHTML(cp.title)}</strong>
+                          <div style="font-size:12px; color:var(--text-secondary); font-weight:700;">교환 날짜: ${cp.redeemedAt}</div>
+                        </div>
+                      </div>
+                      <span class="sync-pill" style="background:${cp.usedAt ? 'var(--bg-card-alt)' : 'var(--yellow-soft)'}; color:${cp.usedAt ? 'var(--text-secondary)' : 'var(--yellow-deep)'};">
+                        ${cp.usedAt ? '✅ 선물 전달 완료!' : '🎀 엄마·아빠께 보여주세요!'}
+                      </span>
+                    </div>
+                  `).join('')}
+                </div>
+              `}
+            </div>
+          `}
         </div>
       `;
+
+      vp.querySelectorAll('[data-rewards-tab]').forEach(btn => {
+        btn.onclick = () => {
+          if (gachaPulling) return;
+          rewardsSubTab = btn.dataset.rewardsTab;
+          renderRewardsView();
+        };
+      });
+
+      const spinBtn = document.getElementById('spinGachaBtn');
+      if (spinBtn) {
+        spinBtn.onclick = () => {
+          if (gachaPulling) return;
+          if (state.spendableStars < GACHA_COST_PER_PULL) {
+            showToast(`캡슐 뽑기에는 별 스티커가 ${GACHA_COST_PER_PULL - state.spendableStars}개 더 필요해요!`);
+            return;
+          }
+          state.spendableStars -= GACHA_COST_PER_PULL;
+          state.gachaPullCount = (state.gachaPullCount || 0) + 1;
+          state.stickerTransactions.push({
+            id: uid('tx'),
+            dateKey: seoul.dateKey,
+            amount: -GACHA_COST_PER_PULL,
+            reason: `두근두근 캡슐 뽑기 (${state.gachaPullCount}회차)`,
+            createdAt: new Date().toISOString()
+          });
+          gachaPulling = true;
+          lastGachaResult = null;
+          playChime('check');
+          renderRewardsView();
+
+          setTimeout(() => {
+            const res = rollGachaReward();
+            gachaPulling = false;
+            lastGachaResult = res;
+
+            if (res.kind === 'bonus_stars') {
+              state.spendableStars += res.bonusStars;
+              state.lifetimeStars += res.bonusStars;
+              state.stickerTransactions.push({
+                id: uid('tx'),
+                dateKey: seoul.dateKey,
+                amount: res.bonusStars,
+                reason: `캡슐 뽑기 대박 보너스 별!`,
+                createdAt: new Date().toISOString()
+              });
+              playChime('completeAll');
+              launchConfetti();
+              speakKorean(`우와! 대박! 보너스 별 ${res.bonusStars}개가 나왔어!`);
+            } else if (res.isDuplicate) {
+              state.spendableStars += res.refundStars;
+              state.stickerTransactions.push({
+                id: uid('tx'),
+                dateKey: seoul.dateKey,
+                amount: res.refundStars,
+                reason: `중복 캡슐 반짝이 조각 환급 (${res.item.name})`,
+                createdAt: new Date().toISOString()
+              });
+              playChime('check');
+              speakKorean(`이미 있는 ${res.item.name}이 나와서 반짝이 조각 별 ${res.refundStars}개로 돌려받았어!`);
+            } else {
+              state.unlockedAccessories.push(res.item.id);
+              playChime('completeAll');
+              if (res.rarity === 'legendary' || res.rarity === 'special') launchConfetti();
+              speakKorean(`짜잔! 새로운 ${res.item.name} 아이템을 뽑았어!`);
+            }
+
+            persistState();
+            renderRewardsView();
+          }, 950);
+        };
+      }
+
+      const equipGachaBtn = document.getElementById('equipGachaItemBtn');
+      if (equipGachaBtn) {
+        equipGachaBtn.onclick = () => {
+          const item = ACCESSORIES_CATALOG.find(a => a.id === equipGachaBtn.dataset.itemId);
+          if (!item) return;
+          const nextEq = getNormalizedEquipped(state.child);
+          nextEq[item.category] = item.id;
+          state.child.equipped = nextEq;
+          persistState();
+          playChime('check');
+          showToast(`🎀 '${item.name}' 아이템을 바로 입혀주었어요!`);
+          renderRewardsView();
+        };
+      }
 
       vp.querySelectorAll('[data-redeem-reward]').forEach(btn => {
         btn.onclick = () => {
@@ -3953,12 +4675,30 @@
     let wardrobeCategoryTab = 'head';
     let wardrobeOwnedOnly = false;
 
+    function checkAndUnlockThemeBonus(equippedObj, showCelebration = false) {
+      const activeSet = getActiveThemeSet(equippedObj);
+      if (!activeSet || !activeSet.bonusBgId) return activeSet;
+      state.unlockedThemeBgs = Array.isArray(state.unlockedThemeBgs) ? state.unlockedThemeBgs : [];
+      if (!state.unlockedAccessories.includes(activeSet.bonusBgId)) {
+        state.unlockedAccessories.push(activeSet.bonusBgId);
+        state.unlockedThemeBgs.push(activeSet.bonusBgId);
+        if (showCelebration) {
+          const bonusBg = ACCESSORIES_CATALOG.find(a => a.id === activeSet.bonusBgId);
+          launchConfetti();
+          showToast(`🎉 '${activeSet.name}' 완성! 스페셜 배경 '${bonusBg ? bonusBg.name : ''}'이 해금되었어요!`);
+          speakKorean(`우와! ${activeSet.name}를 완성해서 스페셜 배경이 열렸어!`);
+        }
+      }
+      return activeSet;
+    }
+
     function renderAdventureView() {
       const vp = document.getElementById('mainViewport');
       const seoul = getSeoulNowParts();
       const activeComp = COMPANIONS_CATALOG.find(c => c.id === state.child.activeCompanionId) || COMPANIONS_CATALOG[0];
       const activeStage = getCompanionStageInfo(activeComp, state.lifetimeStars).stage;
       const equipped = getNormalizedEquipped(state.child);
+      const activeThemeSet = checkAndUnlockThemeBonus(equipped, false);
       const ownedSet = new Set(state.unlockedAccessories || []);
       const savedOutfits = Array.isArray(state.child.savedOutfits) ? state.child.savedOutfits : [null, null, null];
 
@@ -3966,7 +4706,8 @@
         { id: 'head', label: '👑 머리 장식' },
         { id: 'outfit', label: '👗 옷 · 목장식' },
         { id: 'prop', label: '👜 가방 · 소품' },
-        { id: 'bg', label: '🌈 배경 무대' }
+        { id: 'bg', label: '🌈 배경 무대' },
+        { id: 'sets', label: '✨ 테마 세트 도감' }
       ];
 
       const categoryAllItems = ACCESSORIES_CATALOG.filter(item => item.category === wardrobeCategoryTab);
@@ -4016,10 +4757,13 @@
               <div>
                 <h2 style="margin:0; font-size:19px; font-weight:900;">🎀 치이카와 인형꾸미기 옷장 스튜디오</h2>
                 <p style="margin:3px 0 0; font-size:13px; font-weight:700; color:var(--text-secondary);">
-                  총 44종 아이템을 조합해 입히고, 마음에 드는 내 코디를 저장해보세요!
+                  총 <strong>${ACCESSORIES_CATALOG.length}종</strong> 아이템 & <strong>${WARDROBE_THEME_SETS.length}대 테마 세트</strong>! 세트를 맞추면 스페셜 이펙트와 배경이 열려요!
                 </p>
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" class="soft-action-btn" data-goto="rewards" style="background:var(--yellow-soft); color:var(--yellow-deep); border-color:var(--yellow-accent);">
+                  🎰 캡슐 뽑기로 얻기
+                </button>
                 <button type="button" class="soft-action-btn" id="toggleOwnedOnlyBtn" style="${wardrobeOwnedOnly ? 'background:var(--sage-main); color:#FFFFFF; border-color:var(--sage-main);' : 'background:#FFFDF6;'}">
                   ${wardrobeOwnedOnly ? '✓ 보유한 아이템만 보는 중' : '👗 보유한 아이템만 보기'}
                 </button>
@@ -4027,13 +4771,23 @@
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:minmax(230px, 280px) 1fr; gap:16px; align-items:start;">
+            <div style="display:grid; grid-template-columns:minmax(235px, 285px) 1fr; gap:16px; align-items:start;">
               <!-- Live Doll Preview Stage + My Saved Outfits -->
               <div style="background:#FFFDF6; border:2px solid rgba(226,143,143,0.45); border-radius:24px; padding:16px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px;">
                 <span class="sync-pill" style="background:var(--pink-soft); color:var(--pink-deep);">✨ 실시간 코디 미리보기</span>
-                <div style="width:168px; height:168px; border-radius:50%; overflow:hidden; border:3px solid var(--border-soft); box-shadow:var(--shadow-card); display:flex; align-items:center; justify-content:center;">
+                <div class="${activeThemeSet ? 'set-effect-aura' : ''}" style="width:168px; height:168px; border-radius:50%; overflow:hidden; border:3px solid var(--border-soft); box-shadow:var(--shadow-card); display:flex; align-items:center; justify-content:center;">
                   ${renderCompanionSVG(activeComp.id, activeStage === 'egg' ? 'baby' : activeStage, equipped, 168)}
                 </div>
+                ${activeThemeSet ? `
+                  <div class="set-banner-pill">
+                    ${activeThemeSet.icon} ${escapeHTML(activeThemeSet.name)} 발동!
+                  </div>
+                  <div style="font-size:11.5px; font-weight:800; color:#8C4A00;">✨ ${escapeHTML(activeThemeSet.effectLabel)}</div>
+                ` : `
+                  <div style="font-size:11.5px; font-weight:700; color:var(--text-secondary);">
+                    💡 테마 세트를 맞추면 반짝이 세트 효과가 켜져요!
+                  </div>
+                `}
                 <strong style="font-size:17px;">${escapeHTML(activeComp.name)}의 오늘 코디</strong>
                 <div style="width:100%; display:flex; flex-direction:column; gap:4px; font-size:12px; font-weight:700; color:var(--text-secondary); text-align:left; background:var(--bg-card-alt); padding:10px 12px; border-radius:14px;">
                   <div>👑 머리: <strong style="color:var(--text-primary);">${escapeHTML((ACCESSORIES_CATALOG.find(a => a.id === equipped.head) || {}).name || '없음')}</strong></div>
@@ -4076,7 +4830,9 @@
               <div style="display:flex; flex-direction:column; gap:12px;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
                   ${categoryTabs.map(tab => {
-                    const countInCat = ACCESSORIES_CATALOG.filter(a => a.category === tab.id && (!wardrobeOwnedOnly || ownedSet.has(a.id))).length;
+                    const countInCat = tab.id === 'sets'
+                      ? WARDROBE_THEME_SETS.length
+                      : ACCESSORIES_CATALOG.filter(a => a.category === tab.id && (!wardrobeOwnedOnly || ownedSet.has(a.id))).length;
                     return `
                       <button type="button" class="parent-tab-btn ${wardrobeCategoryTab === tab.id ? 'active' : ''}" data-wardrobe-cat="${tab.id}">
                         ${tab.label} (${countInCat})
@@ -4085,32 +4841,93 @@
                   }).join('')}
                 </div>
 
-                <div class="companions-grid" style="grid-template-columns:repeat(auto-fill, minmax(175px, 1fr));">
-                  ${filteredItems.map(acc => {
-                    const owned = ownedSet.has(acc.id);
-                    const isEquipped = equipped[acc.category] === acc.id;
-                    const actualCost = getAccessoryCost(acc);
-                    const previewEq = Object.assign({}, equipped, { [acc.category]: acc.id });
-                    return `
-                      <div class="companion-card ${isEquipped ? 'selected' : ''}" style="padding:14px;">
-                        <div style="width:82px; height:82px; border-radius:50%; overflow:hidden; border:1.5px solid var(--border-soft);">
-                          ${renderCompanionSVG(activeComp.id, activeStage === 'egg' ? 'baby' : activeStage, previewEq, 82)}
+                ${wardrobeCategoryTab === 'sets' ? `
+                  <div class="companions-grid" style="grid-template-columns:repeat(auto-fill, minmax(255px, 1fr));">
+                    ${WARDROBE_THEME_SETS.map(setObj => {
+                      const [hReq, oReq, pReq] = setObj.items;
+                      const sampleEq = {
+                        head: Array.isArray(hReq) ? hReq[0] : hReq,
+                        outfit: Array.isArray(oReq) ? oReq[0] : oReq,
+                        prop: Array.isArray(pReq) ? pReq[0] : pReq,
+                        bg: setObj.bonusBgId
+                      };
+                      const bonusBgObj = ACCESSORIES_CATALOG.find(a => a.id === setObj.bonusBgId);
+                      const isBonusUnlocked = ownedSet.has(setObj.bonusBgId);
+                      const isCurrentSet = activeThemeSet && activeThemeSet.id === setObj.id;
+
+                      // Check if user owns at least 1 valid item for each of the 3 slots
+                      const canEquipSet = [hReq, oReq, pReq].every(req =>
+                        Array.isArray(req) ? req.some(id => ownedSet.has(id)) : ownedSet.has(req)
+                      );
+
+                      const partNames = [hReq, oReq, pReq].map(req => {
+                        if (Array.isArray(req)) return '토끼/곰돌이/병아리 중 1종';
+                        const found = ACCESSORIES_CATALOG.find(a => a.id === req);
+                        const hasIt = ownedSet.has(req);
+                        return `${hasIt ? '✅' : '🔒'} ${found ? found.name : req}`;
+                      });
+
+                      return `
+                        <div class="companion-card ${isCurrentSet ? 'selected set-effect-aura' : ''}" style="padding:15px; justify-content:space-between;">
+                          <div style="width:94px; height:94px; border-radius:50%; overflow:hidden; border:2px solid #EAB938;">
+                            ${renderCompanionSVG(activeComp.id, activeStage === 'egg' ? 'baby' : activeStage, sampleEq, 94)}
+                          </div>
+                          <strong style="font-size:16px;">${setObj.icon} ${escapeHTML(setObj.name)}</strong>
+                          <span class="rarity-badge rarity-legendary">${escapeHTML(setObj.effectLabel)}</span>
+                          <p style="margin:4px 0; font-size:12px; color:var(--text-secondary); font-weight:600;">${escapeHTML(setObj.desc)}</p>
+                          <div style="width:100%; background:var(--bg-card-alt); border-radius:12px; padding:8px 10px; font-size:11.5px; font-weight:700; text-align:left; display:flex; flex-direction:column; gap:3px;">
+                            ${partNames.map(pn => `<div>${escapeHTML(pn)}</div>`).join('')}
+                            <div style="margin-top:3px; padding-top:3px; border-top:1px dashed var(--border-soft); color:#7A3E00;">
+                              🎁 세트 완성 보너스 배경: <strong>${escapeHTML(bonusBgObj ? bonusBgObj.name : '')}</strong> ${isBonusUnlocked ? '(해금됨!)' : ''}
+                            </div>
+                          </div>
+                          ${canEquipSet ? `
+                            <button type="button" class="primary-btn" style="width:100%; margin-top:8px;" data-equip-theme-set="${setObj.id}">
+                              ${isCurrentSet ? '✨ 현재 테마 세트 착용 중!' : '✨ 원터치 세트 입히기!'}
+                            </button>
+                          ` : `
+                            <div style="font-size:11.5px; font-weight:800; color:var(--text-secondary); margin-top:8px;">
+                              옷장 탭이나 캡슐 뽑기에서 3종을 모아보세요!
+                            </div>
+                          `}
                         </div>
-                        <strong style="font-size:15px;">${escapeHTML(acc.name)}</strong>
-                        <p style="margin:0; font-size:11.5px; color:var(--text-secondary); font-weight:600; min-height:32px;">${escapeHTML(acc.desc)}</p>
-                        ${owned ? `
-                          <button type="button" class="primary-btn" style="width:100%; margin-top:auto;" data-equip-acc="${acc.id}">
-                            ${isEquipped ? '✓ 착용 중' : '입혀주기'}
-                          </button>
-                        ` : `
-                          <button type="button" class="soft-action-btn" style="width:100%; margin-top:auto; background:var(--yellow-soft); color:var(--yellow-deep); border-color:var(--yellow-accent);" data-buy-acc="${acc.id}">
-                            ⭐ ${actualCost}개로 얻기
-                          </button>
-                        `}
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
+                      `;
+                    }).join('')}
+                  </div>
+                ` : `
+                  <div class="companions-grid" style="grid-template-columns:repeat(auto-fill, minmax(175px, 1fr));">
+                    ${filteredItems.map(acc => {
+                      const owned = ownedSet.has(acc.id);
+                      const isEquipped = equipped[acc.category] === acc.id;
+                      const actualCost = getAccessoryCost(acc);
+                      const previewEq = Object.assign({}, equipped, { [acc.category]: acc.id });
+                      const rMeta = getRarityLabel(acc.rarity || 'common');
+                      const setTag = acc.themeSet ? WARDROBE_THEME_SETS.find(s => s.id === acc.themeSet) : null;
+                      return `
+                        <div class="companion-card ${isEquipped ? 'selected' : ''}" style="padding:14px;">
+                          <div style="display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:2px;">
+                            ${acc.cost > 0 ? `<span class="rarity-badge ${rMeta.cls}" style="font-size:10px; padding:2px 7px;">${rMeta.label.split(' ')[0]} ${rMeta.label.split(' ')[1]}</span>` : ''}
+                            ${setTag ? `<span class="sync-pill" style="font-size:10px; padding:2px 7px; background:var(--lavender-soft); color:#4B3B7A;">${setTag.icon} 세트</span>` : ''}
+                          </div>
+                          <div style="width:82px; height:82px; border-radius:50%; overflow:hidden; border:1.5px solid var(--border-soft);">
+                            ${renderCompanionSVG(activeComp.id, activeStage === 'egg' ? 'baby' : activeStage, previewEq, 82)}
+                          </div>
+                          <strong style="font-size:15px;">${escapeHTML(acc.name)}</strong>
+                          <p style="margin:0; font-size:11.5px; color:var(--text-secondary); font-weight:600; min-height:32px;">${escapeHTML(acc.desc)}</p>
+                          ${owned ? `
+                            <button type="button" class="primary-btn" style="width:100%; margin-top:auto;" data-equip-acc="${acc.id}">
+                              ${isEquipped ? '✓ 착용 중' : '입혀주기'}
+                            </button>
+                          ` : `
+                            <button type="button" class="soft-action-btn" style="width:100%; margin-top:auto; background:var(--yellow-soft); color:var(--yellow-deep); border-color:var(--yellow-accent);" data-buy-acc="${acc.id}">
+                              ⭐ ${actualCost}개로 얻기
+                            </button>
+                          `}
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                `}
               </div>
             </div>
           </div>
@@ -4152,6 +4969,7 @@
           const slot = state.child.savedOutfits && state.child.savedOutfits[idx];
           if (!slot) return;
           state.child.equipped = Object.assign({}, DEFAULT_EQUIPPED, slot);
+          checkAndUnlockThemeBonus(state.child.equipped, true);
           persistState();
           playChime('check');
           renderAdventureView();
@@ -4162,6 +4980,26 @@
       vp.querySelectorAll('[data-wardrobe-cat]').forEach(btn => {
         btn.onclick = () => {
           wardrobeCategoryTab = btn.dataset.wardrobeCat;
+          renderAdventureView();
+        };
+      });
+
+      vp.querySelectorAll('[data-equip-theme-set]').forEach(btn => {
+        btn.onclick = () => {
+          const setObj = WARDROBE_THEME_SETS.find(s => s.id === btn.dataset.equipThemeSet);
+          if (!setObj) return;
+          const nextEq = getNormalizedEquipped(state.child);
+          const [hReq, oReq, pReq] = setObj.items;
+          nextEq.head = Array.isArray(hReq) ? (hReq.find(id => ownedSet.has(id)) || hReq[0]) : hReq;
+          nextEq.outfit = Array.isArray(oReq) ? (oReq.find(id => ownedSet.has(id)) || oReq[0]) : oReq;
+          nextEq.prop = Array.isArray(pReq) ? (pReq.find(id => ownedSet.has(id)) || pReq[0]) : pReq;
+          checkAndUnlockThemeBonus(nextEq, true);
+          if (state.unlockedAccessories.includes(setObj.bonusBgId)) {
+            nextEq.bg = setObj.bonusBgId;
+          }
+          state.child.equipped = nextEq;
+          persistState();
+          playChime('completeAll');
           renderAdventureView();
         };
       });
@@ -4177,6 +5015,7 @@
             }
           });
           state.child.equipped = nextEq;
+          checkAndUnlockThemeBonus(nextEq, true);
           persistState();
           playChime('check');
           renderAdventureView();
@@ -4191,6 +5030,7 @@
           const nextEq = getNormalizedEquipped(state.child);
           nextEq[acc.category] = acc.id;
           state.child.equipped = nextEq;
+          checkAndUnlockThemeBonus(nextEq, true);
           persistState();
           playChime('check');
           renderAdventureView();
@@ -4212,6 +5052,7 @@
           const nextEq = getNormalizedEquipped(state.child);
           nextEq[acc.category] = acc.id;
           state.child.equipped = nextEq;
+          checkAndUnlockThemeBonus(nextEq, true);
           state.stickerTransactions.push({ id: uid('tx'), dateKey: seoul.dateKey, amount: -actualCost, reason: `인형꾸미기 · ${acc.name}`, createdAt: new Date().toISOString() });
           persistState();
           playChime('completeAll');
